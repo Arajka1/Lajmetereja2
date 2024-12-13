@@ -1,0 +1,28 @@
+# Përjashtoni dosjen e mjedisit virtual
+venv/
+
+# Përjashtoni cache dhe skedarët e përkohshëm të Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Përjashtoni skedarët sensitive
+.env
+*.rdb
+
+# Përjashtoni logjet
+*.log
+
+# Përjashtoni skedarët dhe dosjet e sistemit
+.DS_Store
+.idea/
+.vscode/
+
+# Përjashtoni cache dhe të dhëna të përkohshme në migrations
+migrations/versions/__pycache__/
+migrations/versions/*.pyc
+
+# Skedarë të përjashtuar
+Compressing*
+DROP
+INFO

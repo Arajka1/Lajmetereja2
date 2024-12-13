@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title or "Agregatori i Lajmeve" }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <h1>{{ title or "Agregatori i Lajmeve" }}</h1>
+        <nav>
+            <ul>
+                <li>
+                    <a href="{{ url_for('lokale') }}" class="{% if title == 'Lajmet Lokale' %}active{% endif %}">
+                        Lajmet Lokale
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('nderkombetare') }}" class="{% if title == 'Lajmet Ndërkombëtare' %}active{% endif %}">
+                        Lajmet Ndërkombëtare
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Real-time Clock -->
+    <div class="clock" id="clock"></div>
+
+    <!-- News Statistics -->
+    <div class="news-counter">
+        <p>Numri total i lajmeve: <span>{{ news_count.get('Total', 0) if news_count else 0 }}</span></p>
+        <p>Lajmet më të reja: {{ news_count.get('Top 10 Lajmet e Fundit', 0) if news_count else 0 }}</p>
+        <p>Lajmet Brenda 24 Orëve: {{ news_count.get('Lajmet Brenda 24 Orëve', 0) if news_count else 0 }}</p>
+        <p>Lajmet Tjera: {{ news_count.get('Lajmet Tjera', 0) if news_count else 0 }}</p>
+        <p>Lajmet e Përsëritura: {{ news_count.get('Lajmet e Përsëritura', 0) if news_count else 0 }}</p>
+    </div>
+    
+
+    <!-- Slideshow for Top 10 Latest News -->
+    <div class="slideshow-container">
+        {% if grouped_new_news %}
+            {% for entry in grouped_new_news %}
+                <div class="slideshow-slide fade">
+                    <a href="{{ entry.link or '#' }}" target="_blank">
+                        <img src="{{ entry.image_url or url_for('static', filename='default_image.png') }}"
+                             alt="{{ entry.title or 'Lajmi pa titull' }}" class="slide-image">
+                        <div class="slide-caption">
+                            <span class="source-link">{{ entry.source_name }}</span>
+                            <strong class="news-title">{{ entry.title }}</strong>
+                            {% if entry.translated_title %}
+                                <small>{{ entry.translated_title }}</small>
+                            {% endif %}
+                            <div class="published-time">{{ entry.display_time or 'Data e panjohur' }}</div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Nuk ka lajme për këtë seksion.</p>
+        {% endif %}
+    </div>
+
+    <!-- News Sections -->
+    {% for section_title, news_group in [
+        ("10 Lajmet më të reja", grouped_new_news),
+        ("Lajmet e Përsëritura", grouped_duplicate_news),
+        ("Lajmet Brenda 24 Orëve", grouped_24hr_news),
+        ("Lajmet Tjera", grouped_other_news)
+    ] %}
+        <h2>{{ section_title }}</h2>
+        <div class="news-grid">
+            {% if news_group %}
+                {% for entry in news_group %}
+                    <div class="news-item">
+                        <a href="{{ entry.link or '#' }}" target="_blank" class="source-link">
+                            {{ entry.source_name }}
+                        </a>
+                        <a href="{{ entry.link or '#' }}" target="_blank">
+                            <img src="{{ entry.image_url or url_for('static', filename='default_image.png') }}"
+                                 alt="{{ entry.title or 'Lajmi pa titull' }}" class="news-image">
+                            <strong class="news-title">{{ entry.title }}</strong>
+                            {% if entry.translated_title %}
+                                <small>{{ entry.translated_title }}</small>
+                            {% endif %}
+                        </a>
+                        <div class="published-time">{{ entry.display_time or 'Data e panjohur' }}</div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Nuk ka lajme për këtë seksion.</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <div id="news-container"></div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Agregatori i Lajmeve. Të gjitha të drejtat e rezervuara nga IFONEKOSOVA.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Funksionaliteti i Slideshow
+        let slideIndex = 0;
+    
+        function showSlides() {
+            const slides = document.querySelectorAll(".slideshow-slide");
+            if (slides.length === 0) return; // Kontrollo nëse ka slajde
+    
+            slides.forEach((slide, index) => {
+                slide.style.display = (index === slideIndex) ? "block" : "none";
+            });
+            slideIndex = (slideIndex + 1) % slides.length;
+        }
+    
+        setInterval(showSlides, 5000); // Ndrysho slajdin çdo 5 sekonda
+        showSlides(); // Shfaq slajdin e parë menjëherë
+    
+        // Ora në kohë reale
+        function updateTime() {
+            const now = new Date();
+            const days = ["E Diel", "E Hënë", "E Martë", "E Mërkurë", "E Enjte", "E Premte", "E Shtunë"];
+            const months = ["Janar", "Shkurt", "Mars", "Prill", "Maj", "Qershor", "Korrik", "Gusht", "Shtator", "Tetor", "Nëntor", "Dhjetor"];
+            const dayOfWeek = days[now.getDay()];
+            const day = now.getDate();
+            const month = months[now.getMonth()];
+            const year = now.getFullYear();
+            const timeString = now.toLocaleTimeString('sq-AL', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+    
+            document.getElementById('clock').innerText = `${dayOfWeek}, ${day} ${month} ${year}, ora ${timeString}`;
+        }
+    
+        setInterval(updateTime, 1000); // Përditëso orën çdo sekondë
+        updateTime(); // Shfaq orën menjëherë
+    
+        // Funksioni për të marrë lajmet e fundit dhe për t'i renditur
+        function fetchLatestNews(category) {
+            fetch(`/latest_news?category=${category}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Gabim HTTP! Statusi: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const newsContainer = document.getElementById('news-container');
+                    newsContainer.innerHTML = ''; // Pastron lajmet e vjetra
+                    
+                    // Rendit lajmet sipas kohës së publikimit (më të rejat të parat)
+                    const sortedNews = data.news.sort((a, b) => {
+                        const dateA = new Date(a.published_at || a.display_time);
+                        const dateB = new Date(b.published_at || b.display_time);
+                        return dateB - dateA; // Rendit nga më e reja te më e vjetra
+                    });
+    
+                    sortedNews.forEach(news => {
+                        newsContainer.innerHTML += `
+                            <div class="news-item">
+                                <a href="${news.link || '#'}" target="_blank" class="source-link">${news.source_name}</a>
+                                <a href="${news.link || '#'}" target="_blank">
+                                    <img src="${news.image_url || '/static/default_image.png'}" alt="${news.title || 'Lajmi pa titull'}" class="news-image">
+                                    <strong class="news-title">${news.title || 'Lajmi pa titull'}</strong>
+                                </a>
+                                <div class="published-time">${news.display_time || 'Koha e panjohur'}</div>
+                            </div>
+                        `;
+                    });
+                })
+                .catch(error => console.error('Gabim gjatë marrjes së lajmeve të fundit:', error));
+        }
+    
+        // Thirr rifreskimin për kategoritë çdo minutë
+        setInterval(() => fetchLatestNews('lokale'), 60000); // Rifresko lajmet lokale
+        setInterval(() => fetchLatestNews('nderkombetare'), 60000); // Rifresko lajmet ndërkombëtare
+    
+        // Thirr rifreskimin e parë menjëherë pas ngarkimit të faqes
+        fetchLatestNews('lokale');
+        fetchLatestNews('nderkombetare');
+    </script>
+    
+
+</body>
+</html>

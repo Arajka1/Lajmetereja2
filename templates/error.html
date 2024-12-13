@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabim</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        .error-container {
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 600px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .error-container h1 {
+            color: red;
+            font-size: 2em;
+        }
+        .error-container p {
+            font-size: 1.2em;
+        }
+        .details {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>Gabim!</h1>
+        <p>{{ message }}</p>
+        <div class="details">
+            <p>Detaje teknike:</p>
+            <p>{{ error_details }}</p>
+        </div>
+    </div>
+</body>
+</html>

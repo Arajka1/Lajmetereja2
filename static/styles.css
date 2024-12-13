@@ -1,0 +1,292 @@
+/* Stilet e pergjithshme */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+    background-color: #f8f9fa;
+}
+
+/* Header */
+.main-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 30px;
+    background-color: #b5decc;
+    border-bottom: 3px solid #132aad;
+}
+
+.main-header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    text-transform: uppercase;
+    color: blue;
+}
+
+.main-header nav {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.main-header nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.main-header nav ul li {
+    margin-bottom: 10px;
+}
+
+.main-header nav a {
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+}
+
+.main-header nav a.active {
+    color: blue;
+}
+
+/* Titujt e Seksioneve */
+h2 {
+    text-align: center;
+    color: blue;
+    font-size: 1.8em;
+    margin: 20px 0;
+}
+
+#suggestions-box {
+    position: absolute;
+    top: 45px;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.suggestion-item {
+    padding: 10px;
+    font-size: 0.9em;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f8ff;
+}
+
+.highlight {
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+/* Grid dhe struktura e lajmeve */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.news-item {
+    position: relative;
+    display: flex;  /* Siguron që titulli dhe koha të ndahen dhe të mos mbivendosen */
+    flex-direction: column;  /* Rreshton elementet në një kolonë */
+    justify-content: space-between;  /* Lë hapësirë midis titullit dhe kohës */
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: inherit;
+    padding: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* Titulli i lajmeve */
+.news-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #2c48fc;  /* Ngjyra fillestare e titullit */
+    margin-bottom: 10px;
+    display: block;
+    transition: color 0.3s ease; /* Efekti i kalimit të ngjyrës */
+}
+
+/* Kur maus kalon mbi titullin, ngjyra ndryshon në të kuqe */
+.news-item a:hover .news-title {
+    color: red;  /* Ngjyra e kuqe vetëm kur maus është mbi titullin */
+}
+
+/* Heqim çdo stil të mundshëm të klikimit që mund të ndikojë */
+.news-item a:active .news-title {
+    color: red;  /* Ngjyra e kuqe kur titulli është aktiv (klikimi) */
+}
+
+/* Klasat për titujt e navigacionit */
+header nav ul li a {
+    color: #000;  /* Ngjyra fillestare e linkeve */
+    text-decoration: none; /* Pa vijë nën */
+    padding: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+/* Kur maus kalon mbi një link të navigacionit, ndryshon ngjyra në të kuqe */
+header nav ul li a:hover {
+    color: red;
+}
+
+/* Klasë aktive për linket e navigacionit */
+header nav ul li a.active {
+    color: red;  /* Ndryshimi i ngjyrës kur është linku aktiv */
+}
+
+.published-time {
+    font-size: 0.9em;
+    color: #ee09ee;
+    text-align: right;
+    margin-top: auto;  /* Siguron që ora të jetë gjithmonë në fund të news-item */
+    font-weight: bold;
+}
+
+.news-title strong {
+    text-decoration: none; /* Heq vijën nën titullin */
+}
+
+.news-item a {
+    text-decoration: none; /* Heq vijën nën të gjitha lidhjet (links) brenda .news-item */
+}
+
+.news-item a:hover {
+    text-decoration: none; /* Heq vijën edhe kur maus kalon mbi lidhje */
+}
+
+
+.news-item .source-link {
+    text-decoration: none; /* Heq underline */
+    color: rgb(10, 176, 10); /* Ngjyra e gjelbër */
+}
+
+.news-item .source-link:hover {
+    color: red; /* Ngjyra e kuqe kur maus kalon mbi të */
+}
+
+/* Stilimi i imazhit */
+.news-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.translated-title {
+    display: block; /* Siguron që të jetë në kryerresht */
+    color: red;     /* Ngjyra e kuqe */
+    font-size: 1em; /* Madhësia e fontit (mund ta përshtasësh sipas nevojës) */
+    font-weight: bold; /* E bën tekstin më të trashë */
+    margin-bottom: 5px; /* Hapësirë mes përkthimit dhe titullit kryesor */
+}
+
+/* Emri i burimit */
+.source-link {
+    text-decoration: none; /* Hiq underline për burimin */
+    color: #54da06; /* Ngjyra e gjelbër për burimin */
+    font-weight: bold;
+    transition: color 0.3s ease; /* Efekti i kalimit të ngjyrës */
+}
+
+.source-link:hover {
+    color: red; /* Bëhet e kuqe kur miu qëndron mbi */
+}
+
+/* Counter për lajmet */
+.news-counter {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    text-align: right;
+    color: blue;
+}
+
+.news-counter p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Slideshow */
+.slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 50vh;
+    overflow: hidden;
+    margin: auto;
+}
+
+.slideshow-slide {
+    display: none;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.slide-caption {
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 80%;
+    font-size: 1.2em;
+}
+
+.slideshow-slide.fade {
+    animation: fadeEffect 1s ease-in-out;
+}
+@keyframes fadeEffect {
+    from {opacity: 0.4;} 
+    to {opacity: 1;}
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    font-size: 0.9em;
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    color: #666;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .news-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    .main-header h1 {
+        font-size: 2em;
+    }
+}

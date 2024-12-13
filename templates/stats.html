@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistikat e Vizitorëve</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        main {
+            margin: 20px auto;
+            max-width: 1200px;
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table thead {
+            background-color: #007BFF;
+            color: white;
+        }
+        table th, table td {
+            padding: 8px 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        table td {
+            max-width: 150px; /* Kufizon gjerësinë */
+            white-space: nowrap; /* Mos e ndaje fjalën */
+            overflow: hidden; /* Përmbajtje e fshehur */
+            text-overflow: ellipsis; /* Shto ... për tekstin e gjatë */
+        }
+        table td[title] {
+            cursor: pointer; /* Tregon se ka më shumë informacion */
+        }
+        div[style="overflow-x: auto;"] {
+            max-width: 100%; /* Për scroll horizontal */
+            overflow-x: auto;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem 0;
+            background-color: #f1f1f1;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Statistikat e Vizitorëve</h1>
+    </header>
+    <main>
+        <div style="overflow-x: auto;"> <!-- Shtojmë scroll horizontal -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>IP Vizitori</th>
+                        <th>Endpoint</th>
+                        <th>Pajisja</th>
+                        <th>Shfletuesi</th>
+                        <th>Zona Kohore</th>
+                        <th>Lokacioni</th>
+                        <th>Data dhe Ora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if stats %}
+                        {% for stat in stats %}
+                        <tr>
+                            <td>{{ stat['ip'] }}</td>
+                            <td title="{{ stat['endpoint'] }}">
+                                {{ stat['endpoint'][:30] }}... <!-- Shkurton endpoint-in -->
+                            </td>
+                            <td>{{ stat['device'] }}</td>
+                            <td>{{ stat['browser'] }}</td>
+                            <td>{{ stat['timezone'] }}</td>
+                            <td>{{ stat['location'] }}</td>
+                            <td>{{ stat['timestamp'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="7" style="text-align: center;">Nuk ka të dhëna për t'u shfaqur.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024. Të gjitha të drejtat e rezervuara.</p>
+    </footer>
+</body>
+</html>
